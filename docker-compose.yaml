@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  client:
+    build: ./client
+    image: quotes-app
+    container_name: quotes_client
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./client/:/app
+      - /app/node_modules
+  # app:
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #   restart: always
