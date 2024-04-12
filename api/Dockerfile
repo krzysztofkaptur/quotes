@@ -2,10 +2,11 @@ FROM golang:1.22-alpine
 
 WORKDIR /app
 
-COPY . .
+RUN go install github.com/cosmtrek/air@latest
 
-RUN go build -o bin .
+COPY go.mod go.sum ./
+RUN go mod download
 
 EXPOSE 80
 
-ENTRYPOINT [ "/app/bin" ]
+CMD ["air", "-c", ".air.toml"]
