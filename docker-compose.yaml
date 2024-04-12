@@ -23,11 +23,13 @@ services:
       - ./api/.env
     ports:
       - '80:80'
+    volumes:
+      - ./api/:/app
     depends_on:
       - db
 
   db:
-    image: postgres
+    image: postgres:16-alpine
     container_name: quotes_db
     restart: always
     hostname: postgres
@@ -35,3 +37,8 @@ services:
       - '5432:5432'
     env_file:
       - ./env/db.env
+    volumes:
+      - data:/var/lib/postgresql/data
+
+volumes:
+  data:
