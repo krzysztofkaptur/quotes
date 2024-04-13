@@ -2,12 +2,17 @@ package main
 
 import (
 	"database/sql"
+	"embed"
 	"fmt"
 	"os"
 
 	"github.com/krzysztofkaptur/quotes/api/internal/database"
 	_ "github.com/lib/pq"
+	"github.com/pressly/goose/v3"
 )
+
+//go:embed db/migrations/*.sql
+var embedMigrations embed.FS
 
 func InitDB() (ApiConfig, error) {
 	DB_HOST := os.Getenv("DB_HOST")
@@ -21,6 +26,16 @@ func InitDB() (ApiConfig, error) {
 	if err != nil {
 		fmt.Println(err)
 		return ApiConfig{}, err
+	}
+
+	goose.SetBaseFS(embedMigrations)
+
+	if err := goose.SetDialect("postgres"); err != nil {
+		panic(err)
+	}
+
+	if err := goose.Up(conn, "db/migrations"); err != nil {
+		panic(err)
 	}
 
 	return ApiConfig{
