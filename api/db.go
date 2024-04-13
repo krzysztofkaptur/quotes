@@ -21,7 +21,14 @@ func InitDB() (ApiConfig, error) {
 	DB_PASSWORD := os.Getenv("DB_PASSWORD")
 	DB_SSL_MODE := os.Getenv("DB_SSL_MODE")
 
-	connStr := fmt.Sprintf("host=%v user=%v dbname=%v password=%v sslmode=%v", DB_HOST, DB_USER, DB_NAME, DB_PASSWORD, DB_SSL_MODE)
+	var connStr string
+
+	if DB_SSL_MODE != "" {
+		connStr = fmt.Sprintf("host=%v user=%v dbname=%v password=%v sslmode=%v", DB_HOST, DB_USER, DB_NAME, DB_PASSWORD, DB_SSL_MODE)
+	} else {
+		connStr = fmt.Sprintf("host=%v user=%v dbname=%v password=%v", DB_HOST, DB_USER, DB_NAME, DB_PASSWORD)
+	}
+
 	conn, err := sql.Open("postgres", connStr)
 	if err != nil {
 		fmt.Println(err)
