@@ -43,7 +43,7 @@ jobs:
     environment: sample
     defaults:
       run:
-        working-directory: frontend
+        working-directory: client
     env:
       DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -63,8 +63,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./frontend-next
-          file: ./frontend-next/Dockerfile
+          context: ./client
+          file: ./client/Dockerfile.prod
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME_FRONTEND }}:latest
 
@@ -110,7 +110,7 @@ jobs:
     environment: sample
     defaults:
       run:
-        working-directory: backend-golang
+        working-directory: api
     env:
       DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -130,8 +130,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./backend-golang
-          file: ./backend-golang/Dockerfile
+          context: ./api
+          file: ./api/Dockerfile.prod
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME_BACKEND }}:latest
 
