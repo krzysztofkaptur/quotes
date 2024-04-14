@@ -13,6 +13,8 @@ services:
     volumes:
       - ./client/:/app
       - /app/node_modules
+    stdin_open: true
+    tty: true
     depends_on:
       - api
       
@@ -20,7 +22,7 @@ services:
     build: ./api
     container_name: quotes_api
     env_file:
-      - ./api/.env
+      - ./api/.env.local
     ports:
       - '80:80'
     volumes:
