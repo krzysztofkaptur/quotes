@@ -21,14 +21,14 @@ env:
   ECS_SERVICE_FRONTEND: arn:aws:ecs:eu-north-1:381492012543:service/quotes-cluster/quotes-client-service     
   ECS_TASK_DEFINITION_FRONTEND: aws/client.json 
   CONTAINER_IMAGE_FRONTEND: jakiscwaniak/quotes_client
-  CONTAINER_NAME_FRONTEND: quotes_client
+  CONTAINER_NAME_FRONTEND: quotes-client
 
   # api
   IMAGE_NAME_BACKEND: quotes_api
   ECS_SERVICE_BACKEND: arn:aws:ecs:eu-north-1:381492012543:service/quotes-cluster/quotes-api-service
   ECS_TASK_DEFINITION_BACKEND: aws/api.json
   CONTAINER_IMAGE_BACKEND: jakiscwaniak/quotes_api
-  CONTAINER_NAME_BACKEND: quotes_api
+  CONTAINER_NAME_BACKEND: quotes-api
 
 defaults:
   run:
