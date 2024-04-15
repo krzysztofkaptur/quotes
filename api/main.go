@@ -27,7 +27,9 @@ func main() {
 
 	db, err := InitDB()
 	if err != nil {
+		fmt.Println("before InitDB")
 		log.Fatal(err)
+		fmt.Println("after InitDB")
 	}
 
 	server := ApiServer{
