@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -20,7 +21,8 @@ type ApiServer struct {
 func main() {
 	err := InitEnv()
 	if err != nil {
-		log.Fatal(err)
+		// log.Fatal(err)
+		fmt.Println(err)
 	}
 
 	db, err := InitDB()
