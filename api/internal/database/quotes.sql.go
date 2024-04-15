@@ -35,3 +35,32 @@ func (q *Queries) FetchQuotes(ctx context.Context) ([]Quote, error) {
 	}
 	return items, nil
 }
+
+const fetchRandomQuote = `-- name: FetchRandomQuote :one
+select quotes.id, text, author_id, authors.id, name 
+from quotes
+join authors on authors.id = quotes.author_id
+order by random() 
+limit 1
+`
+
+type FetchRandomQuoteRow struct {
+	ID       int32  `json:"id"`
+	Text     string `json:"text"`
+	AuthorID int32  `json:"author_id"`
+	ID_2     int32  `json:"id_2"`
+	Name     string `json:"name"`
+}
+
+func (q *Queries) FetchRandomQuote(ctx context.Context) (FetchRandomQuoteRow, error) {
+	row := q.db.QueryRowContext(ctx, fetchRandomQuote)
+	var i FetchRandomQuoteRow
+	err := row.Scan(
+		&i.ID,
+		&i.Text,
+		&i.AuthorID,
+		&i.ID_2,
+		&i.Name,
+	)
+	return i, err
+}
