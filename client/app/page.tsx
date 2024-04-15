@@ -1,5 +1,5 @@
 import QuoteComp from './components/Quote'
-import { fetchRandomQuote } from './services/qoutes'
+import { fetchRandomQuote } from './services/quotes'
 
 import type { Quote } from './components/Quote/interface'
 
