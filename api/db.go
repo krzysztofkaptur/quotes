@@ -38,12 +38,16 @@ func InitDB() (ApiConfig, error) {
 	goose.SetBaseFS(embedMigrations)
 
 	if err := goose.SetDialect("postgres"); err != nil {
+		fmt.Println("SetDialect")
 		panic(err)
 	}
 
 	if err := goose.Up(conn, "db/migrations"); err != nil {
+		fmt.Println("db/migrations")
 		panic(err)
 	}
+
+	fmt.Println("after db/migrations")
 
 	return ApiConfig{
 		DB: database.New(conn),
