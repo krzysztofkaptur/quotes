@@ -19,6 +19,7 @@ type ApiServer struct {
 }
 
 func main() {
+	fmt.Println("setup")
 	err := InitEnv()
 	if err != nil {
 		// log.Fatal(err)
@@ -27,7 +28,9 @@ func main() {
 
 	db, err := InitDB()
 	if err != nil {
+		fmt.Println("before InitDB")
 		log.Fatal(err)
+		fmt.Println("after InitDB")
 	}
 
 	server := ApiServer{
