@@ -19,6 +19,7 @@ type ApiServer struct {
 }
 
 func main() {
+	fmt.Println("setup")
 	err := InitEnv()
 	if err != nil {
 		// log.Fatal(err)
