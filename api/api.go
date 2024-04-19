@@ -17,7 +17,7 @@ func (server *ApiServer) Run() {
 }
 
 func (server *ApiServer) hello(w http.ResponseWriter, r *http.Request) error {
-	return WriteJSON(w, http.StatusOK, struct{ Message string }{Message: "herro"})
+	return WriteJSON(w, http.StatusOK, struct{ Message string }{Message: "herro with aws secrets"})
 }
 
 func (server *ApiServer) handleFetchAuthors(w http.ResponseWriter, r *http.Request) error {

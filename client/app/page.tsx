@@ -3,6 +3,8 @@ import { fetchRandomQuote } from './services/quotes'
 
 import type { Quote } from './components/Quote/interface'
 
+export const revalidate = 0
+
 export default async function Home() {
   const response = await fetchRandomQuote()
   const quote: Quote = await response.json()

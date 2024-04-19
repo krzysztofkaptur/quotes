@@ -8,11 +8,10 @@ RUN npm install
 
 COPY . .
 
+ENV NEXT_PUBLIC_BASE_API=http://quotes-api-balancer-1983918120.eu-north-1.elb.amazonaws.com
+
 RUN npm run build
 
-RUN chmod u+x ./entrypoint.sh
-
-ENTRYPOINT ["./entrypoint.sh"] 
 
 EXPOSE 80
 

@@ -15,18 +15,19 @@ import (
 var embedMigrations embed.FS
 
 func InitDB() (ApiConfig, error) {
-	DB_HOST := os.Getenv("DB_HOST")
-	DB_USER := os.Getenv("DB_USER")
-	DB_NAME := os.Getenv("DB_NAME")
-	DB_PASSWORD := os.Getenv("DB_PASSWORD")
+	// DB_HOST := os.Getenv("DB_HOST")
+	// DB_USER := os.Getenv("DB_USER")
+	// DB_NAME := os.Getenv("DB_NAME")
+	// DB_PASSWORD := os.Getenv("DB_PASSWORD")
 	DB_SSL_MODE := os.Getenv("DB_SSL_MODE")
+	secrets := InitAWSEnv()
 
 	var connStr string
 
 	if DB_SSL_MODE != "" {
-		connStr = fmt.Sprintf("host=%v user=%v dbname=%v password=%v sslmode=%v", DB_HOST, DB_USER, DB_NAME, DB_PASSWORD, DB_SSL_MODE)
+		connStr = fmt.Sprintf("host=%v user=%v dbname=%v password=%v sslmode=%v", secrets.Host, secrets.Username, secrets.Dbname, secrets.Password, DB_SSL_MODE)
 	} else {
-		connStr = fmt.Sprintf("host=%v user=%v dbname=%v password=%v", DB_HOST, DB_USER, DB_NAME, DB_PASSWORD)
+		connStr = fmt.Sprintf("host=%v user=%v dbname=%v password=%v", secrets.Host, secrets.Username, secrets.Dbname, secrets.Password)
 	}
 
 	conn, err := sql.Open("postgres", connStr)

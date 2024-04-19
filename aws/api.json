@@ -1,5 +1,5 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:eu-north-1:381492012543:task-definition/qoutes-api-task:5",
+  "taskDefinitionArn": "arn:aws:ecs:eu-north-1:381492012543:task-definition/quotes-api-task:7",
   "containerDefinitions": [
     {
       "name": "quotes-api",
@@ -15,24 +15,7 @@
         }
       ],
       "essential": true,
-      "environment": [
-        {
-          "name": "DB_NAME",
-          "value": "quotes_db"
-        },
-        {
-          "name": "DB_HOST",
-          "value": "quotes-db.c5m02040uc3p.eu-north-1.rds.amazonaws.com"
-        },
-        {
-          "name": "DB_USER",
-          "value": "postgres"
-        },
-        {
-          "name": "DB_PASSWORD",
-          "value": "password"
-        }
-      ],
+      "environment": [],
       "environmentFiles": [],
       "mountPoints": [],
       "volumesFrom": [],
@@ -41,7 +24,7 @@
         "logDriver": "awslogs",
         "options": {
           "awslogs-create-group": "true",
-          "awslogs-group": "/ecs/qoutes-api-task",
+          "awslogs-group": "/ecs/quotes-api-task",
           "awslogs-region": "eu-north-1",
           "awslogs-stream-prefix": "ecs"
         },
@@ -50,11 +33,11 @@
       "systemControls": []
     }
   ],
-  "family": "qoutes-api-task",
+  "family": "quotes-api-task",
   "taskRoleArn": "arn:aws:iam::381492012543:role/ecsTaskExecutionRole",
   "executionRoleArn": "arn:aws:iam::381492012543:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
-  "revision": 5,
+  "revision": 7,
   "volumes": [],
   "status": "ACTIVE",
   "requiresAttributes": [
@@ -83,13 +66,13 @@
   "placementConstraints": [],
   "compatibilities": ["EC2", "FARGATE"],
   "requiresCompatibilities": ["FARGATE"],
-  "cpu": "1024",
-  "memory": "3072",
+  "cpu": "512",
+  "memory": "1024",
   "runtimePlatform": {
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"
   },
-  "registeredAt": "2024-04-14T10:12:36.986Z",
+  "registeredAt": "2024-04-18T19:26:59.850Z",
   "registeredBy": "arn:aws:iam::381492012543:root",
   "tags": []
 }
