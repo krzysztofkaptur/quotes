@@ -75,13 +75,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Get secrets by name and by ARN
-        uses: aws-actions/aws-secretsmanager-get-secrets@v2
-        with:
-          parse-json-secrets: true
-          secret-ids: |
-            prod/goals
-
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
