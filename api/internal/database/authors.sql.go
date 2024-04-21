@@ -9,6 +9,15 @@ import (
 	"context"
 )
 
+const createAuthor = `-- name: CreateAuthor :exec
+insert into authors (name) values ($1)
+`
+
+func (q *Queries) CreateAuthor(ctx context.Context, name string) error {
+	_, err := q.db.ExecContext(ctx, createAuthor, name)
+	return err
+}
+
 const fetchAuthors = `-- name: FetchAuthors :many
 select id, name from authors
 `

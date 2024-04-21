@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/krzysztofkaptur/quotes/api/internal/database"
@@ -38,22 +37,4 @@ func main() {
 	}
 
 	server.Run()
-}
-
-type apiFunc func(w http.ResponseWriter, r *http.Request) error
-
-type ApiError struct {
-	Error string `json="error"`
-	Code  int32  `json="code"`
-}
-
-func makeHTTPHandleFunc(f apiFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		err := f(w, r)
-		if err != nil {
-			WriteJSON(w, http.StatusBadRequest, ApiError{
-				Error: err.Error(),
-			})
-		}
-	}
 }
