@@ -9,6 +9,20 @@ import (
 	"context"
 )
 
+const createQuote = `-- name: CreateQuote :exec
+insert into quotes (author_id, text) values ($1, $2)
+`
+
+type CreateQuoteParams struct {
+	AuthorID int32  `json:"author_id"`
+	Text     string `json:"text"`
+}
+
+func (q *Queries) CreateQuote(ctx context.Context, arg CreateQuoteParams) error {
+	_, err := q.db.ExecContext(ctx, createQuote, arg.AuthorID, arg.Text)
+	return err
+}
+
 const fetchQuotes = `-- name: FetchQuotes :many
 select id, text, author_id from quotes
 `

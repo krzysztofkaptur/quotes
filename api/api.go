@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/krzysztofkaptur/quotes/api/internal/database"
 )
 
 type apiFunc func(w http.ResponseWriter, r *http.Request) error
@@ -30,6 +32,7 @@ func (server *ApiServer) Run() {
 	// quotes
 	router.HandleFunc("GET /api/v1/quotes", makeHTTPHandleFunc(server.handleFetchQuotes))
 	router.HandleFunc("GET /api/v1/quotes/random", makeHTTPHandleFunc(server.handleFetchRandomQuote))
+	router.HandleFunc("POST /api/v1/quotes", makeHTTPHandleFunc(server.handleCreateQuote))
 
 	http.ListenAndServe(fmt.Sprintf(":%v", server.address), router)
 }
@@ -63,7 +66,7 @@ func (server *ApiServer) handleCreateAuthor(w http.ResponseWriter, r *http.Reque
 
 	server.store.DB.CreateAuthor(r.Context(), params.Name)
 
-	return WriteJSON(w, http.StatusOK, ApiGenericRes{Message: "new user created"})
+	return WriteJSON(w, http.StatusCreated, ApiGenericRes{Message: "new user created"})
 }
 
 func (server *ApiServer) handleFetchQuotes(w http.ResponseWriter, r *http.Request) error {
@@ -84,6 +87,29 @@ func (server *ApiServer) handleFetchRandomQuote(w http.ResponseWriter, r *http.R
 	}
 
 	return WriteJSON(w, http.StatusOK, quote)
+}
+
+func (server *ApiServer) handleCreateQuote(w http.ResponseWriter, r *http.Request) error {
+	type parameters struct {
+		AuthorID int32  `json:"author_id"`
+		Text     string `json:"text"`
+	}
+
+	params := parameters{}
+
+	err := json.NewDecoder(r.Body).Decode(&params)
+	if err != nil {
+		fmt.Println(err)
+		return WriteJSON(w, http.StatusBadRequest, ApiError{Error: "something went wrong"})
+	}
+
+	err = server.store.DB.CreateQuote(r.Context(), database.CreateQuoteParams{AuthorID: params.AuthorID, Text: params.Text})
+	if err != nil {
+		fmt.Println(err)
+		return WriteJSON(w, http.StatusBadRequest, ApiError{Error: "something went wrong"})
+	}
+
+	return WriteJSON(w, http.StatusCreated, ApiGenericRes{Message: "new quote created"})
 }
 
 func makeHTTPHandleFunc(f apiFunc) http.HandlerFunc {
